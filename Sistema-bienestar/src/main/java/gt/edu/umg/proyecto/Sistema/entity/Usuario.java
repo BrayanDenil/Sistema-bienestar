@@ -16,7 +16,13 @@ public class Usuario {
     private String correo;
     private String contraseña;
     private String rol;
-    private String Activo;
+    private Boolean estado;
     
+    public void autenticar(){
     
+    }
+    
+    public void actualizarDatos(){
+    
+    }
 }

@@ -16,7 +16,7 @@ private String nombre;
 private String descripcion;
 private Double precio;
 private Integer duracionMinutos;
-private String activo;
+private Boolean activo;
 
 public void actualizar(){
 

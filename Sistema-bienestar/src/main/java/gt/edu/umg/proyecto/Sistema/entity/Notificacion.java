@@ -4,10 +4,21 @@
  */
 package gt.edu.umg.proyecto.Sistema.entity;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Usuario
  */
 public class Notificacion {
+    private Long idNotificacion;
+    private Cliente cliente;
+    private String mensaje;
+    private LocalDateTime fechaEnvio;
+    private Boolean estado;
     
+    
+    public void enviar(){
+    
+    }
 }

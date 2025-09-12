@@ -4,10 +4,26 @@
  */
 package gt.edu.umg.proyecto.Sistema.entity;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Usuario
  */
 public class Factura {
     
+    private Long idFactura;
+    private Cita cita;
+    private LocalDateTime fechaEmision;
+    private double monto;
+    private double impuesto;
+    
+    
+    public void calcularTotal(){
+    
+    }
+    public void generarFactura(){
+    
+    
+    }
 }

@@ -4,10 +4,30 @@
  */
 package gt.edu.umg.proyecto.Sistema.entity;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Usuario
  */
-public class Cita {
+public class Cita { 
+    private Long idCita;
+    private LocalDateTime fechaHora;
+    private Boolean estado;
+    private Cliente cliente;
+    private Servicio servicio;
+    private String notas;
     
+    
+    
+    public void reservar(){
+    
+    
+    
+    }
+    
+    public void cancelar(){
+    
+    
+    }
 }
