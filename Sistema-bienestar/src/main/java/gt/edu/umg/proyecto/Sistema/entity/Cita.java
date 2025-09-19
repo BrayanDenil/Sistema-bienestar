@@ -4,30 +4,121 @@
  */
 package gt.edu.umg.proyecto.Sistema.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
  *
  * @author Usuario
  */
-public class Cita { 
+
+@Entity
+@Table(name = "Citas")
+public class Cita {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCita;
+
+    @Column(nullable = false)
     private LocalDateTime fechaHora;
-    private Boolean estado;
+
+    @Column(nullable = false)
+    private Boolean estado; // true = activa, false = cancelada
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "servicio_id", nullable = false)
     private Servicio servicio;
+
+    @Column(length = 500)
     private String notas;
-    
-    
-    
-    public void reservar(){
-    
-    
-    
+
+    // Constructor para JPA
+    public Cita() {}
+
+    // Constructor con parámetros
+    public Cita(LocalDateTime fechaHora, Boolean estado, Cliente cliente, Servicio servicio, String notas) {
+        this.fechaHora = fechaHora;
+        this.estado = estado;
+        this.cliente = cliente;
+        this.servicio = servicio;
+        this.notas = notas;
     }
-    
-    public void cancelar(){
-    
-    
+
+    // Getters y Setters
+    public Long getIdCita() {
+        return idCita;
+    }
+
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(LocalDateTime fechaHora) {
+        this.fechaHora = fechaHora;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Servicio getServicio() {
+        return servicio;
+    }
+
+    public void setServicio(Servicio servicio) {
+        this.servicio = servicio;
+    }
+
+    public String getNotas() {
+        return notas;
+    }
+
+    public void setNotas(String notas) {
+        this.notas = notas;
+    }
+
+    // Métodos de negocio
+    public void reservar() {
+        this.estado = true;
+    }
+
+    public void cancelar() {
+        this.estado = false;
+    }
+
+    @Override
+    public String toString() {
+        return "Cita{" +
+                "idCita=" + idCita +
+                ", fechaHora=" + fechaHora +
+                ", estado=" + estado +
+                ", cliente=" + (cliente != null ? cliente.getNombre() : "null") +
+                ", servicio=" + (servicio != null ? servicio.toString() : "null") +
+                ", notas='" + notas + '\'' +
+                '}';
     }
 }
