@@ -17,5 +17,5 @@ public interface NotificacionRepository  extends JpaRepository<Notificacion, Lon
   List<Notificacion> findByTipo(String Tipo);
   List<Notificacion> findByEstadoFalse();
   List<Notificacion> findByClienteId(Long clienteId);
-  
+   List<Notificacion> findByEstado(Boolean estado);
 }

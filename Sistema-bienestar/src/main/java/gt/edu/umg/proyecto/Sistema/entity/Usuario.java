@@ -11,6 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 /**
  *
@@ -27,14 +30,26 @@ public class Usuario {
     private Long idUsuario;
     
     @Column(nullable =false,length = 100)
+    @NotBlank(message= "El Nombre no puede estar Vacio")
     private String nombre;
     
    @Column(nullable =false,unique= true,length = 100)
+   @NotBlank(message ="El correo el obliagario")
+   @Email(message = "Correo no Valido")
     private String correo;
+   
+   
    @Column(nullable=false)
+   @NotBlank(message ="La contraseña el obligatoria")
+   @Size(min= 6, message = "La contraseña debe tener al menos 6 caracteres")
    private String contraseña;
+   
+   
    @Column (nullable= false,length = 20)
-    private String rol;
+    @NotBlank(message ="El rol es obligatorio")
+   private String rol;
+   
+   
    @Column (nullable = false)
     private Boolean estado= true;
 

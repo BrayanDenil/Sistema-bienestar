@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -28,17 +30,22 @@ public class Cita {
     private Long idCita;
 
     @Column(nullable = false)
+    @NotNull(message = "La fecha y hora de la cita es obligatoria")
+    @Future(message = "La fecha y hora de la cita debe ser en el futuro")
     private LocalDateTime fechaHora;
 
     @Column(nullable = false)
+    @NotNull(message = "El estado de la cita es obligatorio")
     private Boolean estado; // true = activa, false = cancelada
 
-    @ManyToOne
+    @ManyToOne(optional =false)
     @JoinColumn(name = "cliente_id", nullable = false)
+    @NotNull(message = "El cliente es obligatorio")
     private Cliente cliente;
 
     @ManyToOne
     @JoinColumn(name = "servicio_id", nullable = false)
+    @NotNull(message = "El servicio es obligatorio")
     private Servicio servicio;
 
     @Column(length = 500)

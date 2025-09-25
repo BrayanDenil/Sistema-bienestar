@@ -7,6 +7,8 @@ package gt.edu.umg.proyecto.Sistema.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 /**
  *
@@ -17,12 +19,17 @@ import jakarta.persistence.Table;
 public class Cliente extends Usuario {
     
     @Column(nullable = false, length = 60)
+    @NotBlank(message = "El teléfono es obligatorio")
+    @Size(max = 60, message = "El teléfono no debe superar los 60 caracteres")
     private String telefono;
     
     @Column(nullable = false, length = 150)
+    @NotBlank(message = "La dirección es obligatoria")
+    @Size(max = 150, message = "La dirección no debe superar los 150 caracteres")
     private String direccion;
     
     @Column(length = 500)
+    @Size(max = 500, message = "El historial de sesiones no debe superar los 500 caracteres")
     private String historialsesiones;
     
     //Constructor para JPA

@@ -15,7 +15,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
    //Para Gestionar los usuarios 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
-      Optional<Usuario> findByEmail(String email);
-        boolean existsByCorreo(String correo);
-}  
+    
+    
+      Optional<Usuario> findByCorreo(String correo);  // Consulta por correo
+    boolean existsByCorreo(String correo);          // Validación de integridad
+}
+
 

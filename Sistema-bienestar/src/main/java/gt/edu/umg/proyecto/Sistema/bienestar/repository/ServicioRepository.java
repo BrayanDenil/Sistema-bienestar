@@ -6,6 +6,7 @@ package gt.edu.umg.proyecto.Sistema.bienestar.repository;
 
 import gt.edu.umg.proyecto.Sistema.entity.Servicio;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -14,13 +15,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
   //Para Gestionar Servicio
 public interface ServicioRepository  extends JpaRepository<Servicio, Long> {
-    List<Servicio> findByNombreContaining(String nombre);  
+    
+    
+    // Buscar servicios por nombre (parcial, ignorando mayúsculas/minúsculas)
+    List<Servicio> findByNombreContainingIgnoreCase(String nombre);
 
-       // Buscar servicios activos
+    // Listar solo servicios activos
     List<Servicio> findByActivoTrue();
 
-    // Buscar servicios por nombre (ejemplo de búsqueda parcial)
-    List<Servicio> findByNombreContainingIgnoreCase(String nombre);
-      
+    // Buscar servicios activos por nombre (combinado)
+    List<Servicio> findByNombreContainingIgnoreCaseAndActivoTrue(String nombre);
+
+    // Listar servicios activos ordenados por nombre
+    List<Servicio> findByActivoTrueOrderByNombreAsc();
+
+    public Servicio save(Optional<Servicio> servicio);
 }
 

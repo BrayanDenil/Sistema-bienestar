@@ -10,6 +10,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -24,15 +28,21 @@ public class Servicio {
     private Long idServicio;
 
     @Column(nullable = false, length = 100)
+    @NotBlank(message = "El nombre del servicio es obligario")
     private String nombre;
 
     @Column(length = 500)
     private String descripcion;
 
     @Column(nullable = false)
+    @NotNull(message = "La duración es obligatoria")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El Precio debe ser amyor que 0")
+    @NotNull(message = "el precio es obligatorio")
+    
     private Double precio;
 
     @Column(nullable = false)
+    @Min (value = 1,message = "La duracion debe ser al menos de 1 minuto")
     private Integer duracionMinutos;
 
     @Column(nullable = false)

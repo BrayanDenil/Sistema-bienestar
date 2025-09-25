@@ -25,13 +25,14 @@ public class Administrador extends Usuario{
         super(idUsuario, nombre, correo, contraseña, rol);
     }
 
-    @Override
+     @Override
     public String toString() {
-        return "Administrador{" + '}';
+        return "Administrador{" +
+                "id=" + getIdUsuario() +
+                ", nombre='" + getNombre() + '\'' +
+                ", correo='" + getCorreo() + '\'' +
+                ", rol='" + getRol() + '\'' +
+                '}';
     }
-    
-    
-    
-    
-    
 }
+

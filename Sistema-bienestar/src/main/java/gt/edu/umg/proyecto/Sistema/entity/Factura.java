@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -28,18 +30,23 @@ public class Factura {
 
     @OneToOne
     @JoinColumn(name = "cita_id", nullable = false)
+    @NotNull(message = "La cita es obligatoria")
     private Cita cita;
 
     @Column(nullable = false)
+    @NotNull(message = "La fecha de emisión es obligatoria")
     private LocalDateTime fechaEmision;
 
     @Column(nullable = false)
+    @Min(value = 0, message = "El monto no puede ser negativo")
     private double monto;
 
     @Column(nullable = false)
+    @Min(value = 0, message = "El impuesto no puede ser negativo")
     private double impuesto;
 
     @Column(nullable = false)
+    @Min(value = 0, message = "El total no puede ser negativo")
     private double total;
 
     // Constructor vacío para JPA

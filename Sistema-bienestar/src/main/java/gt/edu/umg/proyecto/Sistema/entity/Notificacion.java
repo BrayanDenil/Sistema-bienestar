@@ -12,6 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
@@ -28,9 +31,12 @@ public class Notificacion {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
+    @NotNull(message = "La notificación debe estar asociada a un cliente")
     private Cliente cliente;
 
     @Column(nullable = false, length = 500)
+     @NotBlank(message = "El mensaje no puede estar vacío")
+    @Size(max = 500, message = "El mensaje no puede exceder 500 caracteres")
     private String mensaje;
 
     @Column(nullable = false)

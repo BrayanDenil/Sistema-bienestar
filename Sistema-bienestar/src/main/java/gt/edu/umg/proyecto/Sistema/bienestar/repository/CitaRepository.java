@@ -30,6 +30,8 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
     // Verificar si ya existe una cita en la misma fecha y hora con el mismo servicio
     boolean existsByServicioIdAndFechaHora(Long servicioId, LocalDateTime fechaHora);
 
+    public List<Cita> findByClienteId(Long clienteId);
+
     
 }
 
