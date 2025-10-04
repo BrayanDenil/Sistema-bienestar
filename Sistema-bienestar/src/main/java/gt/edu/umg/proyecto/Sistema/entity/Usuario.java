@@ -14,6 +14,8 @@ import jakarta.persistence.InheritanceType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
+
 
 /**
  *
@@ -117,11 +119,22 @@ public class Usuario {
     
     
     
-    public void autenticar(){
+    public void autenticar(String iputPassword){
+        
     
     }
     
-    public void actualizarDatos(){
+    public void actualizarDatos(String nuevoNombre,String nuevoCorreo){
+        this.nombre=nuevoNombre;
+        this.correo = nuevoCorreo;
+        
+    }
+    
+    
+    
+    @PrePersist
+    protected void prePersist(){
+    if (estado == null) estado= true;
     
     }
 

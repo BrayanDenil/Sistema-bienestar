@@ -9,6 +9,7 @@ import gt.edu.umg.proyecto.Sistema.entity.Cliente;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 /**
@@ -16,10 +17,11 @@ import org.springframework.stereotype.Service;
  * @author Usuario
  */
 @Service
+@RequiredArgsConstructor
 public class ClienteService {
     
      private final ClienteRepository clienteRepository;
-
+     private final ContraseñaEnconder contraseñaEnconder;
     @Autowired
     public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
