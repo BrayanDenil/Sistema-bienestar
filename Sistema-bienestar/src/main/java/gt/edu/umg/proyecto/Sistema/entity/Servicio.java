@@ -9,11 +9,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -21,8 +27,14 @@ import jakarta.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "Servicios")
-public class Servicio {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 
+public class Servicio {
+@OneToMany(mappedBy="servicio")
+private List<Cita>citas;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idServicio;
@@ -48,19 +60,19 @@ public class Servicio {
     @Column(nullable = false)
     private Boolean activo;
 
-    // Constructor vacío (requerido por JPA)
-    public Servicio() {}
 
-    // Constructor con parámetros
-    public Servicio(String nombre, String descripcion, Double precio, Integer duracionMinutos, Boolean activo) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.precio = precio;
-        this.duracionMinutos = duracionMinutos;
-        this.activo = activo;
+
+
+    public List<Cita> getCitas() {
+        return citas;
     }
 
-    // Getters y Setters
+    public void setCitas(List<Cita> citas) {
+        this.citas = citas;
+    }
+
+    
+  
     public Long getIdServicio() {
         return idServicio;
     }

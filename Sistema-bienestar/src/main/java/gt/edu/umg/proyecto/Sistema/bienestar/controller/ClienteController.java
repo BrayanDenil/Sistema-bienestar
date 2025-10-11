@@ -39,54 +39,30 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
 
-    // Crear un nuevo cliente
-    @PostMapping
-    public ResponseEntity<Cliente> crearCliente(@RequestBody Cliente cliente) {
-        try {
-            Cliente c = clienteService.registrarCliente(cliente);
-            return ResponseEntity.status(HttpStatus.CREATED).body(c);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+  @PostMapping("/registrar")
+    public ResponseEntity<Cliente> registrar(@RequestBody Cliente cliente) {
+        return ResponseEntity.ok(clienteService.registrarCliente(cliente));
     }
 
-    //  Listar todos los clientes
-    @GetMapping
-    public ResponseEntity<List<Cliente>> listarClientes() {
-        List<Cliente> clientes = clienteService.listarClientes();
-        return ResponseEntity.ok(clientes);
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<Cliente> editar(@PathVariable Long id, @RequestBody Cliente cliente) {
+        return ResponseEntity.ok(clienteService.editarCliente(id, cliente));
     }
 
-    // Buscar cliente por ID
+    @PutMapping("/desactivar/{id}")
+    public ResponseEntity<String> desactivar(@PathVariable Long id) {
+        clienteService.desactivarCliente(id);
+        return ResponseEntity.ok("Cliente desactivado");
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarCliente(@PathVariable Long id) {
-        Optional<Cliente> cliente = clienteService.buscarPorId(id);
-        return cliente.map(ResponseEntity::ok)
-                      .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Cliente> consultar(@PathVariable Long id) {
+        Cliente cliente = clienteService.getClienteById(id);
+        return ResponseEntity.ok(cliente);
     }
-
-    // Actualizar cliente
-    @PutMapping("/{id}")
-    public ResponseEntity<Cliente> actualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
-        try {
-            Cliente actualizado = clienteService.actualizarCliente(id, cliente);
-            return ResponseEntity.ok(actualizado);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    //  Eliminar cliente
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarCliente(@PathVariable Long id) {
-        try {
-            clienteService.eliminarCliente(id);
-            return ResponseEntity.noContent().build();
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
+    
+     @GetMapping("/listar")
+    public ResponseEntity<List<Cliente>> listar() {
+        return ResponseEntity.ok(clienteService.listarClientes());
     }
 }
-

@@ -5,6 +5,8 @@
 package gt.edu.umg.proyecto.Sistema.bienestar.repository;
 
 import gt.edu.umg.proyecto.Sistema.entity.Cita;
+import gt.edu.umg.proyecto.Sistema.entity.Cliente;
+import gt.edu.umg.proyecto.Sistema.entity.Servicio;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,21 +18,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 // Gestionar la cita
 public interface CitaRepository extends JpaRepository<Cita, Long> {
 
-    // Buscar citas por cliente usando el ID heredado de Usuario
-    List<Cita> obtenerCitasPorCliente(Long clienteId);
-    // Buscar citas por estado
-    List<Cita> findByEstado(Boolean estado);
+  List<Cita> findByClienteAndEstado(Cliente cliente);
+    List<Cita> findByServicioAndFechaHoraBetween(Servicio servicio, LocalDateTime start, LocalDateTime end);
+    int countByServicioAndFechaHoraBetween(Servicio servicio, LocalDateTime start, LocalDateTime end);
 
-    // Buscar citas por servicio
-    List<Cita> findByServicioId(Long servicioId);
-
-    // Buscar citas en una fecha/hora específica
-    List<Cita> findByFechaHora(LocalDateTime fechaHora);
-
-    // Verificar si ya existe una cita en la misma fecha y hora con el mismo servicio
-    boolean existsByServicioIdAndFechaHora(Long servicioId, LocalDateTime fechaHora);
+    public boolean existsByServicioIdAndFechaHora(Long idServicio, LocalDateTime fechaHora);
 
     public List<Cita> findByClienteId(Long clienteId);
+
+    public List<Cita> findByServicioId(Long servicioId);
 
     
 }

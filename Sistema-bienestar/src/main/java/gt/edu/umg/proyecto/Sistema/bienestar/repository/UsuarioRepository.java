@@ -7,6 +7,7 @@ package gt.edu.umg.proyecto.Sistema.bienestar.repository;
 import gt.edu.umg.proyecto.Sistema.entity.Usuario;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
    //Para Gestionar los usuarios 
+@Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     
     

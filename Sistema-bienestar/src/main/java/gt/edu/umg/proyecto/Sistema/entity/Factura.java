@@ -4,8 +4,11 @@
  */
 package gt.edu.umg.proyecto.Sistema.entity;
 
+import gt.edu.umg.proyecto.Sistema.bienestar.Estados.EstadoFactura;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +26,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "Facturas")
 public class Factura {
-
+    @Enumerated(EnumType.STRING)
+    private EstadoFactura estado;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFactura;
@@ -49,19 +53,19 @@ public class Factura {
     @Min(value = 0, message = "El total no puede ser negativo")
     private double total;
 
-    // Constructor vacío para JPA
-    public Factura() {}
 
-    // Constructor con parámetros
-    public Factura(Cita cita, LocalDateTime fechaEmision, double monto, double impuesto) {
-        this.cita = cita;
-        this.fechaEmision = fechaEmision;
-        this.monto = monto;
-        this.impuesto = impuesto;
-        this.total = calcularTotal();
+
+    
+
+    public EstadoFactura getEstado() {
+        return estado;
     }
 
-    // Getters y setters
+    public void setEstado(EstadoFactura estado) {
+        this.estado = estado;
+    }
+
+  
     public Long getIdFactura() {
         return idFactura;
     }

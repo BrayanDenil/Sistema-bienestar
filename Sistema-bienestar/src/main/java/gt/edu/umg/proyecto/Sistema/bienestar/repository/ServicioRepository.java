@@ -8,12 +8,14 @@ import gt.edu.umg.proyecto.Sistema.entity.Servicio;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Usuario
  */
   //Para Gestionar Servicio
+@Repository
 public interface ServicioRepository  extends JpaRepository<Servicio, Long> {
     
     

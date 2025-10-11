@@ -1,22 +1,48 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gt.edu.umg.proyecto.Sistema.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author Usuario
  */
 @Entity
-@Table(name= "Clientes")
+@Table(name= "Clientes", uniqueConstraints ={
+    @UniqueConstraint(columnNames = {"correo"}),
+    @UniqueConstraint(columnNames = {"dpi"})
+})
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@PrimaryKeyJoinColumn(name="idUsuarion")// une la llave priamaria de usuario con cliente
 public class Cliente extends Usuario {
+
+  
+    
+    @OneToMany(mappedBy = "cliente")
+    private List<Cita> citas;
+    @OneToMany(mappedBy = "cliente")
+    private List<Factura> facturas;
+    
+    @Column(nullable = false)
+    @NotBlank(message = "El dpi es obligatorio")
+    @Size(max= 20, message = "El dpi no debe superar los 20 caracteres")
+    private String dpi;
+    
     
     @Column(nullable = false, length = 60)
     @NotBlank(message = "El teléfono es obligatorio")
@@ -31,18 +57,39 @@ public class Cliente extends Usuario {
     @Column(length = 500)
     @Size(max = 500, message = "El historial de sesiones no debe superar los 500 caracteres")
     private String historialsesiones;
+
     
-    //Constructor para JPA
-    public Cliente(){
-
-    } 
-
-    public Cliente(String telefono, String direccion, String historialsesiones, Long idUsuario, String nombre, String correo, String contraseña, String rol) {
-        super(idUsuario, nombre, correo, contraseña, rol);
-        this.telefono = telefono;
-        this.direccion = direccion;
-        this.historialsesiones = historialsesiones;
+ 
+   
+    public List<Cita> getCitas() {
+        return citas;
     }
+
+    public void setCitas(List<Cita> citas) {
+        this.citas = citas;
+    }
+
+    public List<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public void setFacturas(List<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+   
+       
+    
+
+    public String getDpi() {
+        return dpi;
+    }
+
+    public void setDpi(String dpi) {
+        this.dpi = dpi;
+    }
+    
+    
 
     public String getTelefono() {
         return telefono;
@@ -68,29 +115,27 @@ public class Cliente extends Usuario {
         this.historialsesiones = historialsesiones;
     }
    
-    public boolean autenticar(String correoIngresado,String contraseñaIngresada){
-        return this.getCorreo().equals(correoIngresado)&& 
-               this.getContraseña().equals(contraseñaIngresada);
-    
-    
-    
-    
+  // Métodos personalizados
+    public boolean autenticar(String correoIngresado, String contraseñaIngresada) {
+        return this.getCorreo().equals(correoIngresado)
+                && this.getContraseña().equals(contraseñaIngresada);
     }
-    
-    public void actualizarDatos(String nuevoTelefono,String nuevaDireccion){
-        
+
+    public void actualizarDatos(String nuevoTelefono, String nuevaDireccion) {
         this.setTelefono(nuevoTelefono);
         this.setDireccion(nuevaDireccion);
-    
-    
-    
     }
 
     @Override
     public String toString() {
-        return "Cliente{" + "telefono=" + telefono + ", direccion=" + direccion + ", historialsesiones=" + historialsesiones + '}';
+        return "Cliente{" +
+                "dpi='" + dpi + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", historialsesiones='" + historialsesiones + '\'' +
+                '}';
     }
-    
-    
-    
 }
+    
+    
+

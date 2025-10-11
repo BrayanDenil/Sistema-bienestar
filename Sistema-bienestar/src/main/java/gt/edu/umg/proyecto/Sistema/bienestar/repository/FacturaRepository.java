@@ -5,17 +5,26 @@
 package gt.edu.umg.proyecto.Sistema.bienestar.repository;
 import gt.edu.umg.proyecto.Sistema.entity.Cliente;
 import gt.edu.umg.proyecto.Sistema.entity.Factura;
+import java.time.LocalDateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 
 /**
  *
  * @author Usuario
  */
-
+@Repository
 public interface FacturaRepository extends JpaRepository<Factura, Long> {
-    List<Factura> findByClienteId(Long clienteId);
-      List<Factura> findByFechaEmisionBetween(java.time.LocalDateTime inicio, java.time.LocalDateTime fin);
-      List<Factura> findByCitaIdCita(Long citaId);
+
+    // Facturas por cita
+    List<Factura> findByCitaIdCita(Long citaId);
+
+    // Facturas por rango de fechas
+    List<Factura> findByFechaEmisionBetween(LocalDateTime inicio, LocalDateTime fin);
+
+    // Opcional: facturas de un cliente a través de la cita
+    List<Factura> findByCitaClienteIdOrderByFechaEmisionDesc(Long clienteId);
+
 }

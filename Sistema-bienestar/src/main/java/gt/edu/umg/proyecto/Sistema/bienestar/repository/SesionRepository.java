@@ -5,22 +5,18 @@
 package gt.edu.umg.proyecto.Sistema.bienestar.repository;
 
 import gt.edu.umg.proyecto.Sistema.entity.Cliente;
-import java.util.Optional;
+import gt.edu.umg.proyecto.Sistema.entity.Sesion;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Usuario
  */
-public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-    Optional<Cliente> findByEmail(String email);
-    boolean existsByEmail(String email);
-    boolean existsByDpi(String dpi);
-}
-
-
-
-
-
+@Repository
+public interface SesionRepository extends JpaRepository <Sesion,  Long> {
     
-
+List<Sesion> findByClienteOrderByFechaHoraDesc(Cliente cliente);
+    
+}

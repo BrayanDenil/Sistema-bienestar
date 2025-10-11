@@ -4,6 +4,7 @@
  */
 package gt.edu.umg.proyecto.Sistema.entity;
 
+import gt.edu.umg.proyecto.Sistema.bienestar.Estados.EstadoCita;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +16,10 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -23,6 +28,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Citas")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Cita {
 
     @Id
@@ -36,7 +45,7 @@ public class Cita {
 
     @Column(nullable = false)
     @NotNull(message = "El estado de la cita es obligatorio")
-    private Boolean estado; // true = activa, false = cancelada
+    private EstadoCita estado; // true = activa, false = cancelada
 
     @ManyToOne(optional =false)
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -50,18 +59,9 @@ public class Cita {
 
     @Column(length = 500)
     private String notas;
+  
 
-    // Constructor para JPA
-    public Cita() {}
 
-    // Constructor con parámetros
-    public Cita(LocalDateTime fechaHora, Boolean estado, Cliente cliente, Servicio servicio, String notas) {
-        this.fechaHora = fechaHora;
-        this.estado = estado;
-        this.cliente = cliente;
-        this.servicio = servicio;
-        this.notas = notas;
-    }
 
     // Getters y Setters
     public Long getIdCita() {
@@ -76,12 +76,12 @@ public class Cita {
         this.fechaHora = fechaHora;
     }
 
-    public Boolean getEstado() {
+    public EstadoCita getEstado() {
         return estado;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setEstado(EstadoCita estado) {
+        this.estado=estado;
     }
 
     public Cliente getCliente() {
@@ -110,11 +110,11 @@ public class Cita {
 
     // Métodos de negocio
     public void reservar() {
-        this.estado = true;
+        this.estado = estado;
     }
 
     public void cancelar() {
-        this.estado = false;
+        this.estado = estado;
     }
 
     @Override
@@ -127,5 +127,11 @@ public class Cita {
                 ", servicio=" + (servicio != null ? servicio.toString() : "null") +
                 ", notas='" + notas + '\'' +
                 '}';
+    }
+
+    public static class estado {
+
+        public estado() {
+        }
     }
 }

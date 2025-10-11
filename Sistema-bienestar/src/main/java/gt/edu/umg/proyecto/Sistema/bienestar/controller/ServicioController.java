@@ -37,8 +37,12 @@ public class ServicioController {
             return ResponseEntity.status(HttpStatus.CREATED).body(creado);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
+            
+        }}
+        
+    
+        
+    
 
     // Listar todos los servicios
     @GetMapping
@@ -80,6 +84,12 @@ public class ServicioController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminarServicio(@PathVariable Long id) {
+        servicioService.eliminarServicio(id);
+        return ResponseEntity.ok("Servicio desactivado exitosamente");
     }
 
     // Desactivar un servicio

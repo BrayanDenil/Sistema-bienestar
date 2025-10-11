@@ -4,8 +4,14 @@
  */
 package gt.edu.umg.proyecto.Sistema.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -13,17 +19,42 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name = "Administrador")
-public class Administrador extends Usuario{
-    
-    //Constructor para el JPA
-    public Administrador(){
-    
+@Table(name = "administrador")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class Administrador extends Usuario {
+
+    @Column(length = 100)
+    private String cargo;
+
+    @Column(length = 200)
+    private String departamento;
+
+ 
+   
+    public String getCargo() {
+        return cargo;
     }
 
-    public Administrador(Long idUsuario, String nombre, String correo, String contraseña, String rol) {
-        super(idUsuario, nombre, correo, contraseña, rol);
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
+
+    public String getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
+    }
+    
+    
+
+    
+
+   
 
      @Override
     public String toString() {

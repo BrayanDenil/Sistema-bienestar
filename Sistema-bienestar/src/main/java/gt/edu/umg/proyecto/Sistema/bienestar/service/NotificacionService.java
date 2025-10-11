@@ -4,12 +4,9 @@
  */
 package gt.edu.umg.proyecto.Sistema.bienestar.service;
 
-import gt.edu.umg.proyecto.Sistema.bienestar.repository.NotificacionRepository;
-import gt.edu.umg.proyecto.Sistema.entity.Cliente;
-import gt.edu.umg.proyecto.Sistema.entity.Notificacion;
-import java.util.List;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.management.Notification;
+import lombok.RequiredArgsConstructor;
+import org.aspectj.bridge.Message;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,45 +14,24 @@ import org.springframework.stereotype.Service;
  * @author Usuario
  */
 @Service
+@RequiredArgsConstructor
 public class NotificacionService {
+        public void enviarNotificacion(String tokenCliente, String titulo, String mensaje) {
+        try {
+            Message message = Message.builder()
+                    .setToken(tokenCliente)
+                    .setNotification(Notification.builder()
+                            .setTitle(titulo)
+                            .setBody(mensaje)
+                            .build())
+                    .build();
 
-    private final NotificacionRepository notificacionRepository;
-
-    @Autowired
-    public NotificacionService(NotificacionRepository notificacionRepository) {
-        this.notificacionRepository = notificacionRepository;
-    }
-
-    // Registrar una nueva notificación pendiente
-    public Notificacion crearNotificacion(Cliente cliente, String mensaje) {
-        Notificacion notificacion = new Notificacion(cliente, mensaje);
-        return notificacionRepository.save(notificacion);
-    }
-
-    // Enviar una notificación específica
-    public Notificacion enviarNotificacion(Long idNotificacion) {
-        Optional<Notificacion> notificacionOpt = notificacionRepository.findById(idNotificacion);
-        if (notificacionOpt.isPresent()) {
-            Notificacion notificacion = notificacionOpt.get();
-            notificacion.enviar();
-            return notificacionRepository.save(notificacion);
-        } else {
-            throw new IllegalArgumentException("Notificación no encontrada con ID: " + idNotificacion);
+            String response = FirebaseMessaging.getInstance().send(message);
+            System.out.println("Notificación enviada: " + response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
-    // Listar todas las notificaciones
-    public List<Notificacion> listarNotificaciones() {
-        return notificacionRepository.findAll();
-    }
-
-    // Listar notificaciones de un cliente
-    public List<Notificacion> listarPorCliente(Long clienteId) {
-        return notificacionRepository.findByClienteId(clienteId);
-    }
-
-    // Listar notificaciones pendientes
-    public List<Notificacion> listarPendientes() {
-        return notificacionRepository.findByEstadoFalse();
-    }
 }
+    
+

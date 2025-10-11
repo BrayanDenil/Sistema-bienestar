@@ -2,17 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package gt.edu.umg.proyecto.Sistema.bienestar.Exception;
+package gt.edu.umg.proyecto.Sistema.bienestar.Estados;
 
 /**
  *
  * @author Usuario
  */
-
-
-  public class ResourceNotFoundException extends RuntimeException {
-
-    public ResourceNotFoundException(String mensaje) {
-        super(mensaje);
-    }
+public enum EstadoFactura {
+    PAGADA,
+    PENDIENTE,
 }

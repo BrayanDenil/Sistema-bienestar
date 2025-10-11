@@ -3,66 +3,77 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package gt.edu.umg.proyecto.Sistema.bienestar.service;
-
 import gt.edu.umg.proyecto.Sistema.bienestar.repository.ClienteRepository;
 import gt.edu.umg.proyecto.Sistema.entity.Cliente;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
+
+
 /**
  *
  * @author Usuario
  */
-@Service
-@RequiredArgsConstructor
-public class ClienteService {
-    
-     private final ClienteRepository clienteRepository;
-     private final ContraseñaEnconder contraseñaEnconder;
-    @Autowired
-    public ClienteService(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
-    }
 
-    // Crear cliente
+@Service
+public class ClienteService {
+
+  @Autowired
+    private ClienteRepository clienteRepository;
+   private final PasswordEncoder passwordEncoder = null;
+
     public Cliente registrarCliente(Cliente cliente) {
-        if (clienteRepository.existsByCorreo(cliente.getCorreo())) {
-            throw new IllegalArgumentException("Correo ya registrado");
-        }
+         if (clienteRepository.existsByEmail(cliente.getCorreo()))
+            throw new IllegalArgumentException("Email ya registrado");
+        if (clienteRepository.existsByDpi(cliente.getDpi()))
+            throw new IllegalArgumentException("DPI ya registrado");
+        
+            /*Cliente cliente = Cliente.builder()
+                .nombre(cliente.getNombre())
+                .dpi(cliente.getDpi())
+                .email(cliente.getCorreo())
+                .telefono(cliente.getTelefono())
+                .direccion(cliente.getDireccion())
+                .fechaCreacion(cliente.getFechaCreacion()!= null ?
+                        LocalDate.parse(cliente.getFechaCreacion(), DateTimeFormatter.ISO_DATE) : null)
+                .password(passwordEncoder.encode(cliente.getPassword()))
+                .activo(true)
+                .build();*/
+        
         return clienteRepository.save(cliente);
     }
 
-    // Listar todos los clientes
-    public List<Cliente> listarClientes() {
+    public Cliente editarCliente(Long id, Cliente clienteActualizado) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        cliente.setNombre(clienteActualizado.getNombre());
+        cliente.setCorreo(clienteActualizado.getCorreo());
+        cliente.setTelefono(clienteActualizado.getTelefono());
+        cliente.setDireccion(clienteActualizado.getDireccion());
+        return clienteRepository.save(cliente);
+    }
+
+    public void desactivarCliente(Long id) {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        cliente.setEstado(false);
+        clienteRepository.save(cliente);
+    }
+
+    public Cliente getClienteById(Long id){
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+    }
+
+    public List<Cliente> listarClientes(){
         return clienteRepository.findAll();
     }
 
-    // Buscar cliente por ID
-    public Optional<Cliente> buscarPorId(Long id) {
-        return clienteRepository.findById(id);
-    }
-
-    // Actualizar cliente
-    public Cliente actualizarCliente(Long id, Cliente cliente) {
-        Cliente existente = clienteRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Cliente no encontrado"));
-
-        existente.setNombre(cliente.getNombre());
-        existente.setTelefono(cliente.getTelefono());
-        existente.setDireccion(cliente.getDireccion());
-        existente.setHistorialsesiones(cliente.getHistorialsesiones());
-
-        return clienteRepository.save(existente);
-    }
-
-    // Eliminar cliente
-    public void eliminarCliente(Long id) {
-        Cliente existente = clienteRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Cliente no encontrado"));
-        clienteRepository.delete(existente);
+    public Cliente obtenerClientePorId(Long clienteId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
-
